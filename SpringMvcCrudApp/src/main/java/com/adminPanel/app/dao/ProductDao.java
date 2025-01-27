@@ -10,6 +10,7 @@ public interface ProductDao {
      List<Product> findAll();
      Product findById(int id);
      void save(ProductDetails productDetails);
-    void update(Product product);
-    void delete(Product product);
+    void update(ProductDetails productDetails);
+    void delete(int id);
+    Product getProductById(int id);
 }

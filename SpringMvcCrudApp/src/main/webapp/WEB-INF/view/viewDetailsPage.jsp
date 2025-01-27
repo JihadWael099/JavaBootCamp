@@ -8,27 +8,18 @@
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/style.css" />">
 
 </head>
-<body>
-    <h1>Add new Product</h1>
-        <form:form action="processForm" modelAttribute="productModel">
-            <div class="container mt-5">
-                <div class="row justify-content-center">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <h3>Add Product</h3>
-                        </div>
-                        <div class="form-group">
-                            <label for="name">product name</label>
-                            <form:input type="text" cssClass="form-control" path="name" placeholder="Enter product name"/>
-                            <form:errors path="name" cssClass="error"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="expirationDate">Expiration Date</label>
-                            <form:input type="text" cssClass="form-control" path="expirationDate" placeholder="dd/mm/yyyy"/>
-                            <form:errors path="expirationDate" cssClass="error"/>
-                        </div>
-                        <input type="submit" class="btn btn-primary"/>
-                    </div>
+<body class="container">
+        <form:form  modelAttribute="productDetails" action="${pageContext.request.contextPath}/products/details/${productDetails.id}"  method="GET">
+            <h1 class="mt-5">Product Details</h1>
+            <div class="d-flex justify-content-center align-items-center" style="width: 18rem;   background-color: #f8f9fa;
+    color: #333; " >
+                <div class="card-body">
+                    <h5 class="card-title">Product Name: ${productDetails.name}</h5>
+                    <p class="card-text">Manufacturer: ${productDetails.manufacturer}</p>
+                    <p class="card-text">Price: $${productDetails.price}</p>
+                    <p class="card-text">Expiration Date: ${productDetails.expirationDate}</p>
+                    <p class="card-text">Available: ${productDetails.available}</p>
+                    <a href="${pageContext.request.contextPath}/products/list" class="btn btn-primary">Back to Products List</a>
                 </div>
             </div>
         </form:form>

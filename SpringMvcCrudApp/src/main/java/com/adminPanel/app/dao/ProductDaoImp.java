@@ -45,19 +45,50 @@ public class ProductDaoImp implements ProductDao {
     @Transactional
     public void save(ProductDetails productDetails) {
         Session session = sessionFactory.getCurrentSession();
+
+        Product product = productDetails.getProduct();
+        if (product == null) {
+            product = new Product(productDetails.getName());
+            productDetails.setProduct(product);
+        }
+        session.save(product);
         session.save(productDetails);
-        session.save(new Product(productDetails.getName()));
     }
 
     @Override
     @Transactional
-    public void update(Product product) {
+    public void update(ProductDetails productDetails) {
+        if (productDetails == null || productDetails.getProduct() == null) {
+            throw new IllegalArgumentException("ProductDetails or Product cannot be null");
+        }
 
+        Session session = sessionFactory.getCurrentSession();
+        Product product = productDetails.getProduct();
+        if (product == null) {
+            product = new Product(productDetails.getName());
+            productDetails.setProduct(product);
+        }
+        session.saveOrUpdate(product);
+        session.saveOrUpdate(productDetails);
+    }
+
+
+    @Override
+    @Transactional
+    public Product getProductById(int id) {
+        Session session = sessionFactory.getCurrentSession();
+        Product getProduct=session.get(Product.class, id);
+        return getProduct;
     }
 
     @Override
     @Transactional
-    public void delete(Product product) {
-
+    public void delete(int id ) {
+        Session session = sessionFactory.getCurrentSession();
+        Product getProduct=getProductById(id);
+        if(getProduct.getProductDetails()!=null ){
+            session.delete(getProduct.getProductDetails());
+        }
+        session.delete(getProduct);
     }
 }

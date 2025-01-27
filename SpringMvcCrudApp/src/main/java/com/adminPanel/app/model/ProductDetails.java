@@ -1,7 +1,9 @@
 package com.adminPanel.app.model;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,6 +25,7 @@ public class ProductDetails {
 
     @Column(name = "name")
     @NotBlank(message = "Name cannot be blank")
+    @Size(min = 1,max = 100,message = "write a valid name ")
     private String name;
 
     @Column(name = "expiration_date")
@@ -32,10 +35,12 @@ public class ProductDetails {
 
     @Column(name = "manufacturer")
     @NotBlank(message = "Manufacturer cannot be blank")
+    @Size(min = 1,max = 100,message = "write a valid name ")
     private String manufacturer;
 
     @Column(name = "price")
     @NotNull(message = "Price cannot be null")
+    @Min(value = 1,message = "zero or negative not allow")
     private Double price;
 
     @Column(name = "available")
@@ -45,4 +50,21 @@ public class ProductDetails {
     @OneToOne
     @JoinColumn(name = "product_id")
     private Product product;
+
+    public ProductDetails(String name, Date expirationDate, String manufacturer, Double price, Boolean available, Product product) {
+        this.name = name;
+        this.expirationDate = expirationDate;
+        this.manufacturer = manufacturer;
+        this.price = price;
+        this.available = available;
+        this.product = product;
+    }
+
+    public ProductDetails(String name, Date expirationDate, String manufacturer, Double price, Boolean available) {
+        this.name = name;
+        this.expirationDate = expirationDate;
+        this.manufacturer = manufacturer;
+        this.price = price;
+        this.available = available;
+    }
 }

@@ -1,5 +1,7 @@
 package com.adminPanel.app.model;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +21,8 @@ public class Product {
     private int id;
 
     @Column(name = "name")
+    @NotBlank(message = "name can,t be null")
+    @Size(min = 1,max = 100,message = "write a valid name ")
     private String name;
 
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)

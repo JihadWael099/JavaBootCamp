@@ -11,10 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
-
 import java.util.List;
-
-
 @Controller
 @RequestMapping("/products")
 public class HomeController {
@@ -40,7 +37,6 @@ public class HomeController {
         ProductDetails productDetails = new ProductDetails();
         productDetails.setProduct(product);
         product.setProductDetails(productDetails);
-
         model.addAttribute("productModel", productDetails);
         return "addProductForm";
     }
@@ -50,8 +46,56 @@ public class HomeController {
         if (result.hasErrors()) {
             return "addProductForm";
         }
-
         productDaoImp.save(product);
+        return "redirect:/products/list";
+    }
+
+    @PostMapping ("/delete/{Id}")
+    public String processDeleteProduct(@PathVariable("Id") int id) {
+        productDaoImp.delete(id);
+        return "redirect:/products/list";
+    }
+
+    @GetMapping("/details/{id}")
+    public String ViewDetails(@PathVariable("id") int id, Model model ) {
+        ProductDetails product = productDaoImp.getProductById(id).getProductDetails();
+        model.addAttribute("productDetails", product);
+        return "viewDetailsPage";
+    }
+
+    /*@GetMapping ("/update/{id}")
+    public String update( @PathVariable int id,Model model) {
+        ProductDetails productDetails = productDaoImp.getProductById(id).getProductDetails();
+        model.addAttribute("productDetails", productDetails);
+        return "updateDetailsForm";
+    }
+
+    @PostMapping("/processUpdateProduct")
+    public String updateProduct(@Valid @ModelAttribute("productDetails") ProductDetails productDetails,
+                                BindingResult result) {
+        if (result.hasErrors()) {
+            return "updateDetailsForm";
+        }
+        productDaoImp.update(productDetails);
+        return "redirect:/products/list";
+    }*/
+
+
+
+    @GetMapping("/updateProduct/{productId}")
+    public String showUpdateForm(@PathVariable("productId") int id, Model model) {
+        Product product = productDaoImp.getProductById(id);
+        model.addAttribute("product", product);
+        return "updateDetailsForm";
+    }
+
+
+    @PostMapping("/processUpdateProduct")
+    public String updateProduct(@Valid @ModelAttribute("product") ProductDetails productDetails, BindingResult result){
+        if (result.hasErrors()) {
+            return "updateDetailsForm";
+        }
+        productDaoImp.update(productDetails);
         return "redirect:/products/list";
     }
 }
