@@ -63,29 +63,11 @@ public class HomeController {
         return "viewDetailsPage";
     }
 
-    /*@GetMapping ("/update/{id}")
-    public String update( @PathVariable int id,Model model) {
-        ProductDetails productDetails = productDaoImp.getProductById(id).getProductDetails();
-        model.addAttribute("productDetails", productDetails);
-        return "updateDetailsForm";
-    }
-
-    @PostMapping("/processUpdateProduct")
-    public String updateProduct(@Valid @ModelAttribute("productDetails") ProductDetails productDetails,
-                                BindingResult result) {
-        if (result.hasErrors()) {
-            return "updateDetailsForm";
-        }
-        productDaoImp.update(productDetails);
-        return "redirect:/products/list";
-    }*/
-
-
 
     @GetMapping("/updateProduct/{productId}")
     public String showUpdateForm(@PathVariable("productId") int id, Model model) {
         Product product = productDaoImp.getProductById(id);
-        model.addAttribute("product", product);
+        model.addAttribute("product", product.getProductDetails());
         return "updateDetailsForm";
     }
 
@@ -95,6 +77,7 @@ public class HomeController {
         if (result.hasErrors()) {
             return "updateDetailsForm";
         }
+
         productDaoImp.update(productDetails);
         return "redirect:/products/list";
     }

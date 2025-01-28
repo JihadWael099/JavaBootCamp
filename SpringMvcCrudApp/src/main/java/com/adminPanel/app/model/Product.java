@@ -1,5 +1,6 @@
 package com.adminPanel.app.model;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -26,7 +27,9 @@ public class Product {
     private String name;
 
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
+    @Valid
     private ProductDetails productDetails;
+
 
     public Product(String name) {
         this.name = name;

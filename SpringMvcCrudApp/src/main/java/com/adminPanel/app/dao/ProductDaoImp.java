@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import static com.mysql.cj.conf.PropertyKey.logger;
 
@@ -17,24 +18,18 @@ import static com.mysql.cj.conf.PropertyKey.logger;
 @Repository
 public class ProductDaoImp implements ProductDao {
 
-
+    Logger logger = Logger.getLogger(ProductDaoImp.class.getName());
     private final SessionFactory sessionFactory;
-
     @Autowired
     public ProductDaoImp(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
-
-
-
-
     @Override
     @Transactional
     public  List<Product> findAll() {
        Session session = sessionFactory.getCurrentSession();
         return session.createQuery("from Product", Product.class).getResultList();
     }
-
     @Override
     @Transactional
     public Product findById(int id) {
@@ -55,22 +50,8 @@ public class ProductDaoImp implements ProductDao {
         session.save(productDetails);
     }
 
-    @Override
-    @Transactional
-    public void update(ProductDetails productDetails) {
-        if (productDetails == null || productDetails.getProduct() == null) {
-            throw new IllegalArgumentException("ProductDetails or Product cannot be null");
-        }
 
-        Session session = sessionFactory.getCurrentSession();
-        Product product = productDetails.getProduct();
-        if (product == null) {
-            product = new Product(productDetails.getName());
-            productDetails.setProduct(product);
-        }
-        session.saveOrUpdate(product);
-        session.saveOrUpdate(productDetails);
-    }
+
 
 
     @Override
@@ -90,5 +71,34 @@ public class ProductDaoImp implements ProductDao {
             session.delete(getProduct.getProductDetails());
         }
         session.delete(getProduct);
+    }
+
+
+
+
+
+
+
+
+
+
+    @Override
+    @Transactional
+    public void update(ProductDetails productDetails) {
+        if (productDetails == null || productDetails.getProduct() == null) {
+            throw new IllegalArgumentException("ProductDetails or associated Product cannot be null");
+        }
+
+        Session session = sessionFactory.getCurrentSession();
+        Product product = productDetails.getProduct();
+
+
+        product.setProductDetails(productDetails);
+        productDetails.setProduct(product);
+
+
+        session.saveOrUpdate(product);
+        session.saveOrUpdate(productDetails);
+
     }
 }
