@@ -1,5 +1,6 @@
 package com.adminPanel.app.model;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -8,10 +9,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.util.Date;
 
+@Component
 @Entity
 @Setter
 @Getter
@@ -47,6 +50,8 @@ public class ProductDetails {
     @NotNull(message = "Availability cannot be null")
     private Boolean available;
 
+
+    @Valid
     @OneToOne
     @JoinColumn(name = "product_id")
     private Product product;

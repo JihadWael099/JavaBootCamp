@@ -6,9 +6,12 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 
+
+@Component
 @Entity
 @Setter
 @Getter
@@ -26,10 +29,9 @@ public class Product {
     @Size(min = 1,max = 100,message = "write a valid name ")
     private String name;
 
-    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
     @Valid
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
     private ProductDetails productDetails;
-
 
     public Product(String name) {
         this.name = name;

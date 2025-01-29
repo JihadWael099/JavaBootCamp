@@ -16,7 +16,7 @@
                 </div>
                 <div class="form-group">
                     <label for="name">Product Name</label>
-                    <form:input type="text" cssClass="form-control" path="name" placeholder="Enter product name"/>
+                    <form:input type="text" cssClass="form-control" path="name" placeholder="Enter product name" />
                     <form:errors path="name" cssClass="text-danger"/>
                 </div>
                 <div class="form-group">

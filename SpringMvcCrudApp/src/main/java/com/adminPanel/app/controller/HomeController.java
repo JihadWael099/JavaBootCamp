@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
+
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
@@ -46,6 +47,7 @@ public class HomeController {
         if (result.hasErrors()) {
             return "addProductForm";
         }
+
         productDaoImp.save(product);
         return "redirect:/products/list";
     }
@@ -71,13 +73,11 @@ public class HomeController {
         return "updateDetailsForm";
     }
 
-
     @PostMapping("/processUpdateProduct")
-    public String updateProduct(@Valid @ModelAttribute("product") ProductDetails productDetails, BindingResult result){
+    public String updateProduct(@Valid @ModelAttribute("product") ProductDetails productDetails, BindingResult result ){
         if (result.hasErrors()) {
             return "updateDetailsForm";
         }
-
         productDaoImp.update(productDetails);
         return "redirect:/products/list";
     }
